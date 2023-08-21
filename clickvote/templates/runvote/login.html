@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <title>GoVote | login </title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='govote/css/login_vote.css')}}">
+    </head>
+    <body>
+        <header>
+            <img src="{{url_for('static', filename='govote/images/logo.png')}}">
+        </header>
+        <div class="content">
+            <div class="login">
+                <div class="logo">
+                    <img src="{{url_for('static', filename='govote/images/govote.png')}}">
+                </div>
+                {% if messages %}
+                    <ul class="flash">
+                    {% for message in messages %}
+                        <li>{{message}}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                <form method='POST' action='govote_login'>
+                    <!--<input type="text" placeholder="Enter ID">-->
+                    <!--<input type="text" placeholder="Password">-->
+                    <!--<button type="submit"><img src="{{url_for('static',
+                        filename='govote/images/button.png')}}"></button>-->
+                    {{wtf.quick_form(form)}}
+                </form>
+
+            </div>
+
+        </div>
+        <footer>
+
+        </footer>
+
+    </body>
+</html>

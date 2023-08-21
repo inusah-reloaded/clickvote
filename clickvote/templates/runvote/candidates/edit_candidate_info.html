@@ -1,0 +1,81 @@
+{% extends 'runvote/base.html' %}
+{% block heading %} Candidates | Edit {% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                |<li ><a href="{{url_for('runvote.candidate_list')}}">List</a></li>
+                |<li class=""><a href="{{url_for('runvote.add_candidate')}}">Add</a></li>|
+            </ul>
+
+        </nav>
+       <div class="forms">
+             {% with  messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class='flash {{category}}'>
+                    <ul>
+                        <li>{{message}}</li>
+                    </ul>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                {% if current_user.role in ['root', 'admin'] and current_user.active_election %}
+            <div class="add-single">
+                <form method="post" enctype="multipart/form-data">
+                     <div class="heading"><h1>  Edit  Candidate</h1> </div>
+                    <span class="clear-fix"></span>
+                    {{form.csrf_token}}
+                         
+                         <div class="form-group">
+                             {% if form.candidate_id.errors %}
+                                <ul class="errors">{% for error in form.candidate_id.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.candidate_id.label}}
+                            {{form.candidate_id(value=results.Candidate.candidate_id)}}
+                        </div> 
+                         
+                         <div class="form-group">
+                             {% if form.voter_id.errors %}
+                                <ul class="errors">{% for error in form.voter_id.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.voter_id.label}}
+                            {{form.voter_id(value=results.Elector.id)}}
+                        </div>
+                         
+                         <div class="form-group">
+                             {% if form.portfolio.errors %}
+                                <ul class="errors">{% for error in form.portfolio.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio.label}}
+                            {{form.portfolio}}
+                        </div>
+                         
+                         <div class="form-group">
+                             {% if form.picture.errors %}
+                                <ul class="errors">{% for error in form.picture.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.picture.label}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label class="fileContainer button" style="width: 80px; height:80px; padding: 0; background-image: url({{url_for('uploaded_file', filename='images/'+results.Candidate.photo)}}); background-repeat: no-repeat; background-size: 80px 80px;">
+                            {{form.picture}}
+                            </label>
+                            <span id="file-selected">No file selected</span>
+                        </div>
+                         <div class="form-group">
+                         <label></label>
+                        {{form.submit(class='button glow button-action')}}
+                        </div>
+                    </form>
+            </div>
+            {% endif %}
+        </div>
+    {% endblock %} 
+    {% block script %}
+        <script>
+            $(window).ready(function(){
+                $('#portfolio').change(function(){
+                }); 
+            }); 
+        </script>
+
+    {% endblock script %}

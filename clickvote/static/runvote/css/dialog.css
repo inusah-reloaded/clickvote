@@ -1,0 +1,41 @@
+#dialogoverlay{
+	display: none;
+	opacity: .8;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: #fff;
+	width: 100%;
+	z-index: 10;
+}
+
+#dialogbox{
+	display: none;
+	position: fixed;
+	border-radius: 7px;
+	width: 550px;
+    left: 31%;
+	z-index: 10;
+}
+
+#dialogbox > div { background: #fff; margin:8px;}
+#dialogbox > div #dialogboxhead{background: #ddd ; font-size: 19px; padding: 10px; color: #838;  }
+#dialogbox > div #dialogboxbody{ background: #fff; font-size:20px; padding: 20px; color: #000;}
+#dialogbox > div #dialogboxfoot{background: #ddd; padding:10px; text-align: right;}
+
+.btnbtn{
+	width: 60px;
+	height:40px;
+}
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+    #dialogbox {
+        width: 90%;
+        left: 5%;
+    }
+     #dialogbox > div { background: #fff; margin:8px;}
+    #dialogbox > div #dialogboxhead{background: #4EB1BA ; font-size: 19px; padding: 10px; color: #fff;  }
+    #dialogbox > div #dialogboxbody{ background: #222930; font-size:14px; padding: 20px; color: #fff;}
+    #dialogbox > div #dialogboxfoot{background: #4EB1BA; padding:10px; text-align: right;}
+
+}
+

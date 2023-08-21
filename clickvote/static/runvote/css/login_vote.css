@@ -1,0 +1,438 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+html {
+    height: 100%;
+}
+body {
+	line-height: 1;
+     background: #dcdada;
+     height: 100%;
+   
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.alert {
+    color: #cc3344;
+    background: #fff;
+    padding: 20px;
+    min-height: 20px;
+    width: 427px;
+    margin: 10px auto 5px  auto;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 20px;
+}
+.alert span {
+    float: right;
+}
+.alert span a {
+    text-decoration: none;
+}
+header {
+    height: 50px;
+    width: 100%;
+}
+header img {
+    padding: 5px 0 0 20px;
+}
+.content {
+    width: 100%;
+    height: 80.7%;
+    margin: 0 auto;
+}
+.login {
+    height: 354px;
+    width: 471px;
+    background: #333333;
+    border-radius: 10px;
+    margin: 0 auto;
+    position: relative;
+    //top: 50%;
+    //transform: translate(0, -50%);
+}
+.login .logo{
+   width: 175px;
+   margin:0  auto;
+   padding: 30px 0;
+}
+.login form {
+    width: 90%;
+    margin: 0 auto;
+}
+.login form input {
+    display: block;
+    width: 390px;
+    height: 55px;
+    margin: 0 auto 16px auto;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.login form #submit{
+    display: block;
+    width: 400px;
+    margin: 0 auto;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.login form button img:hover {
+    opacity: 0.7;
+}
+.content a {
+    position: absolute;
+}
+
+/* voters style begins */
+.skip {
+    position: fixed;
+    right: 20%;
+    top: 20px;
+}
+.logout{
+    position: fixed;
+    right: 5px;
+    top: 50px;
+}
+#report-nav {
+    width: 90%;
+    margin: 0 auto;
+    height: 100%;
+}
+#report-nav ul.report-menu {
+    line-height: 50px;
+}
+#report-nav ul.report-menu li{
+    display: inline-block;
+    padding: 0 5px;
+}
+#report-nav ul.report-menu li a{
+    text-decoration: none;
+    color: #838;
+    font-weight: bold;
+}
+
+.skip img:hover {
+    opacity: 0.9;
+}
+.candidates-container {
+    width: 500px;
+    //min-height: 80%;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 10px;
+}
+.report-container {
+    width: 550px;
+}
+.candidates-container .position {
+    width: 500px;
+    height: 40px;
+    margin: 0 auto;
+    text-align: center;
+    //padding: 5px 0;
+}
+.position h1 {
+    font: 24px bold;
+    padding: 10px;
+}
+section.display-candidates {
+    width: 420px;
+    height: 190px;
+   margin: 0 auto;
+}
+.report-container section.display-candidates {
+    width: 530px;
+}
+section.display-candidates .candidates {
+    width: 280px;
+    height: 150px;
+    margin: 0 auto;
+}
+.candidate-id{
+    width: 280px;
+    height: auto;
+    margin: 0 auto;
+}
+section.display-candidates .single {
+    width: 410px;
+}
+.report-container section.display-candidates .single{
+    width: 100%;
+}
+.report-container .other-counts{
+    padding: 10px 0;
+    text-align: center;
+    font: 18px bold;
+}
+
+.display-candidates .candidates div{
+    float: left;
+}
+
+.cid {
+    width: 150px;
+    font: bold 14px Georgia serif;;
+    background: #fff;
+    text-align: center;
+    border-radius: 5px 5px 0 0;
+}
+.cid .cid-color {
+    color: red;
+    font-size: 18px;
+}
+.candidates-container .candidates .candidate-pic img {
+    width: 150px;
+    height: 150px;
+}
+
+.candidates .buttons a{
+    display: inline;
+    width: 120px;
+    margin-left: 5px;
+    padding: 0;
+    height: 150px;
+    line-height: 147px;
+    font-size: 40px;
+}
+.candidates .report-values a{
+    line-height: 70px;
+    width: 180px;
+    font-size: 60px;
+    text-align: center;
+}
+.yes {
+    background: #9c7;
+}
+.no {
+    background: #c34;
+}
+
+section.summary{
+    height: 105px;
+    width: 200px;
+}
+section.summary .cid {
+    width: 210px;
+    font: bold 12px Georgia serif;   
+    text-align: left;
+}
+.cid .cid-color {
+    color: red;
+    font-size: 18px;
+}
+
+.summary .candidates .candidate-pic img {
+    height: 80px;
+    width: 80px;
+}
+.summary .candidates .summary-port {
+    font: 18px bold;
+    padding: 10px;
+}
+.candidates .buttons .single-right-button {
+    margin-left: 130px;
+}
+.candidates .report-values .single-right-button {
+    margin-left: 190px;
+}
+
+section.report-summary .report-item {
+    height: 40px;
+    padding: 0 10px;
+    line-height: 40px;
+}
+.report-item .title, .value, .percentage {
+    font: 24px bold Georgia serif;
+    color: green;
+}
+.report-item .value {
+    padding: 0 10px;
+}
+
+
+.clear-fix {
+    clear: both;
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+    .alert {
+        width: 78%;
+        font-size: 18px;
+    }
+    .login {
+        width: 330px;
+        height: 254px;
+    }
+    .login .logo{
+    width: 175px;
+    margin:0  auto;
+    padding: 15px 0;
+    }
+    .login form {
+        width: 100%;
+    }
+    .login form input {
+        width: 90%;
+        height: 35px;
+        margin: 0 auto 10px auto;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .login form #submit{
+        display: block;
+        width: 92%;
+        height: 50px;
+    }
+    .login form button img {
+        width: 100%;
+        height: 45px;
+    }
+    /* vote style */
+     .skip {
+        top: auto;
+        bottom: 5px;
+        right: 10px;
+        z-index: 1;
+    }
+     .candidates-container {
+        width: 99%;
+    }
+     .candidates-container .candidates{
+        width: 300px;
+        height: 165px;
+    }
+     .candidates-container .candidates .candidate-pic img {
+        width: 140px;
+        height: 114px;
+        padding: 0;
+    }
+    .candidates-container .single .candidate-pic img {
+         width: 80px;
+        height: 114px;
+    }
+     .candidates-container .single .candidate-pic img:first-child{
+         width: 140px;
+        height: 114px;
+    }
+     .candidates .buttons a{
+    width: 60px;
+    margin-left: 5px;
+    padding: 0;
+    height: 114px;
+    line-height: 114px;
+    font-size: 20px;
+    }
+    .candidates .buttons-double {
+        width: 180px;
+    }
+    
+     .candidates .buttons .single-right-button {
+    margin-left: 70px;
+    }
+    .candidates-container .position {
+       width: 350px;
+   }
+   .candidates {
+       height: 114px;
+   }
+   .position h1 {
+       font-size: 18px;
+   }
+   .candidates-container .display-candidates {
+       width: 330px;
+   }
+   .candidates-container .candidate-id {
+       width: 220px;
+   }
+    .candidates-container .display-candidates {
+      height: 160; 
+  }
+  .candidates-container .display-candidates .candidates {
+      width: 230px;
+      height: 120; 
+  }
+    .candidates-container .display-candidates .single {
+       width: 350px;
+   }
+    .candidates-container section.summary{
+    height: 120px;
+    }
+    section.summary .cid {
+        width: 210px;
+        font: bold 12px Georgia serif;   
+        text-align: left;
+    }
+
+
+    .summary .candidates .candidate-pic img {
+        height: 80px;
+        width: 80px;
+    }
+    
+    .summary .candidates .summary-port {
+        font: 14px bold;
+    }
+    .candidates-container .display-candidates .candidates {
+        width: 250px;
+    }
+
+
+
+
+}
+
+
+footer {
+    position: absolute;
+    height: 70px;
+    background: #333333;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}

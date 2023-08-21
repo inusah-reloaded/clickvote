@@ -1,0 +1,118 @@
+{% extends 'runvote/base.html' %}
+    {% block heading %} Electorates | Search{% endblock heading %}
+    {% block content %}
+         <nav class="nav">
+            <ul>
+                |<li class=""><a href="{{url_for('runvote.voters_summary')}}">Summary</a></li>
+                |<li><a href="{{url_for('runvote.add_voter')}}">Add</a></li>
+                |<li class=""><a href="{{url_for('runvote.import_csv')}}">Import csv</a></li>
+                |<li class="active"><a href="{{url_for('runvote.search_for_voter')}}">Search</a></li>|
+            </ul>
+
+        </nav>
+
+        <div class="forms no-padding">
+            <div class="search-form glow">
+                <form method='post'>
+                    {{form.csrf_token}}
+                    {{form.identifier}}
+                    {{form.submit(class='button button-action')}}
+                </form>
+        </div>
+        <span class="clear-fix"></span>
+        <div class="search-result">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class='flash' style="text-align: center;">
+                <ul>
+                    {% for category, message in messages %}
+                    <li class="{{category}}">{{message}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %} 
+
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th class="id">ID</th>
+                        <th class="fname ">First Name</th>
+                        <th class="lname ">Last Name</th>
+                        <th class="phone ">Phone</th>
+                        <th class="department">Department</th>
+                        <th class="program ">Program</th>
+                        <th class="level ">Level</th>
+                        <th class="status ">Status</th>
+                        <th class="action ">Action</th>
+                    <tr>
+                </thead>
+                {% if result %}
+                <tbody>
+                    <tr id="tr_{{result.Elector.id}}">
+                        <td class="id">{{result.Elector.id}}</td>
+                        <td class="fname">{{result.Elector.first_name}}</td>
+                        <td class="lname">{{result.Elector.last_name}}</td>
+                        <td class="phone">{{result.Elector.phone}}</td>
+                        <td class="department">{{result.Account.department}}</td>
+                        <td class="program">{{result.Account.program}}</td>
+                        <td class="level">{{result.Elector.level}}</td>
+                        <td class="status">{{get_elector_status(result.Elector.id, current_user.active_election)}}</td>
+                        <td class="action">
+                            {% if current_user.role in ['root', 'admin'] %}
+                            <a href="#" class="button button-primary edit" id="{{result.Elector.id}}" url="{{url_for('runvote.edit_voter', id=result.Elector.id)}}" name="{{result.Elector.first_name}}">Edit</a>
+                            <a href="#" id="{{result.Elector.id}}" name="{{result.Elector.first_name}} {{result.last_name}}" url="{{url_for('runvote.search_for_voter')}}"  class="button button-caution delete">Del</a></td>
+                            {% endif %}
+                    </tr>
+                </tbody>
+
+            </table>
+            
+            <div class="password-section" style="text-align: center; width: 400px; height: 400px; margin: 0 auto;">
+                <h4 id="password-field" style="display: none; padding: 30px 0;" class="success"><h4>
+                <a href="#" id="{{result.Elector.id}}" class="button glow generate-password">Activate</a>
+            </div>
+             
+            {% endif %}
+        {% endif %}
+        {% endwith %}
+        </div>
+    {% endblock %} 
+
+    {% block script %}
+        
+    <script>
+        $(document).ready(function(){
+        
+            $('.generate-password').click(function(){
+            
+                var csrf = '{{csrf_token()}}',
+                    election_id = '{{current_user.active_election}}'
+                    id = $(this).attr('id'),
+                    url = window.location.href;
+
+                generate = window.confirm('Generate Password for '+id+'?');
+
+                if(generate){
+
+                    var request = $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {id: id, election_id: election_id,  action: 'password_gen', csrf_token: csrf}
+                    });
+                    request.done(function(msg){
+                        $('#password-field').html(msg).show(); 
+                        $('#table').hide();
+                    });
+                    request.fail(function(jqXHR, textStatus){
+                        alert(textStatus) 
+                    });
+
+                }
+            
+            }); 
+        
+        
+        });
+    </script>
+
+    {% endblock script %}

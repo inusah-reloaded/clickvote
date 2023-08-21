@@ -1,0 +1,132 @@
+{% extends 'runvote/settings/config_base.html' %}
+{% block heading %} Elections |  Create {% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                |<li ><a href="{{url_for('runvote.elections')}}">List</a></li>
+                |<li class="active"><a href="{{url_for('runvote.create_election')}}">Create</a></li>|
+            </ul>
+
+        </nav>
+        <div class="forms">
+             {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class='flash success'>
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+                {% if current_user.role in ['root', 'admin'] %}
+            <div class="add-single">
+                <form method="post">
+                     <div class="heading"><h1>  Create Election</h1> <a  href="?" class="button glow" >Reset</a></div>
+                    <span class="clear-fix"></span>
+                    {{form.csrf_token}}
+                         
+                         <div class="form-group">
+                             {% if form.name.errors %}
+                                <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.name.label}}
+                            {{form.name}}
+                        </div> 
+                         <div class="form-group">
+                             {% if form.scope.errors %}
+                                <ul class="errors">{% for error in form.scope.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.scope.label}}
+                            {{form.scope}}
+                        </div> 
+                         <div class="form-group">
+                             {% if form.date.errors %}
+                                <ul class="errors">{% for error in form.date.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.date.label}}
+                            {{form.date}}
+                        </div>
+                         
+                         <div class="form-group">
+                             {% if form.portfolio_1.errors %}
+                                <ul class="errors">{% for error in form.portfolio_1.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_1.label}}
+                            {{form.portfolio_1}}
+                        </div>
+                        <div class="form-group">
+                             {% if form.portfolio_2.errors %}
+                                <ul class="errors">{% for error in form.portfolio_2.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_2.label}}
+                            {{form.portfolio_2}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.portfolio_3.errors %}
+                                <ul class="errors">{% for error in form.portfolio_3.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_3.label}}
+                            {{form.portfolio_3}}
+                        </div>
+                        <div class="form-group">
+                             {% if form.portfolio_4.errors %}
+                                <ul class="errors">{% for error in form.portfolio_4.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_4.label}}
+                            {{form.portfolio_4}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.portfolio_5.errors %}
+                                <ul class="errors">{% for error in form.portfolio_5.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_5.label}}
+                            {{form.portfolio_5}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.portfolio_6.errors %}
+                                <ul class="errors">{% for error in form.portfolio_6.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_6.label}}
+                            {{form.portfolio_6}}
+                        </div>
+                        <div class="form-group">
+                             {% if form.portfolio_7.errors %}
+                                <ul class="errors">{% for error in form.portfolio_7.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_7.label}}
+                            {{form.portfolio_7}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.portfolio_8.errors %}
+                                <ul class="errors">{% for error in form.portfolio_8.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_8.label}}
+                            {{form.portfolio_8}}
+                        </div>
+                         
+                         <div class="form-group">
+                             {% if form.portfolio_9.errors %}
+                                <ul class="errors">{% for error in form.portfolio_9.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_9.label}}
+                            {{form.portfolio_9}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.portfolio_10.errors %}
+                                <ul class="errors">{% for error in form.portfolio_10.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.portfolio_10.label}}
+                            {{form.portfolio_10}}
+                        </div>
+                         <div class="form-group">
+                         <label></label>
+                        {{form.submit(class='button glow button-action')}}
+                        </div>
+                    </form>
+                    {% endif %}
+            </div>
+
+        </div>
+    {% endblock %} 

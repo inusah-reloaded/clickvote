@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <title>GoVote | Vote</title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/dialog.css')}}">
+
+    </head>
+    <body>
+        <div id="dialogoverlay"></div>
+      <div id="dialogbox">
+      <div>
+      <div id="dialogboxhead"></div>
+      <div id="dialogboxbody"></div>
+      <div id="dialogboxfoot"></div>
+      </div>
+    </div> 
+    <header style="background: #fff;">
+        <nav id="report-nav">
+            {% if portfolios %}
+            <ul class='report-menu'>
+                |<li><a href="{{url_for('runvote.console')}}" >Dashboard</a></li>
+                |<li class="select-portfolio" port-number="Summary" portfolio="Summary"><a href="#" >Summary</a></li>
+                {% for row in portfolios %}
+                {% if row not in ['Select Portfolio', None] %}
+                |<li class="select-portfolio" port-number="{{loop.index-1}}" portfolio="{{row}}"><a href="#" >{{row}}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </nav>
+       </header> 
+        <div class="logout">
+            <a href="{{url_for('auth.logout')}}" class="button glow button-royal">Logout</a>
+        </div>
+        <div class="content">
+            <div class="candidates-container">
+                <div class="position">
+                <h1>REPORT SUMMARY</h1>
+                </div>
+                <hr>
+                 <section class="report-summary">
+                     <div class="report-item" style="">
+                         <span class="title">Total Registed Voters:</span> 
+                         <span class="value">{{registered}}</span>
+                         <!--<span class="percentage">100%</span>-->
+                     </div>
+                </section>
+                <hr>
+                <section class="report-summary">
+                     <div class="report-item" style="">
+                         <span class="title">Total Turnout:</span> 
+                         <span class="value">{{turnout}}</span>
+                         <span class="percentage">{% if turnout != 0 %}{{((turnout / registered) * 100)|round(2)}}{% else %}0{% endif %}%</span>
+                     </div>
+                </section>
+                <hr>
+                 
+            </div>
+             <!--<footer>
+
+             </footer>-->
+
+
+
+        </div>
+        <script src="{{url_for('static', filename='node_modules/jquery/dist/jquery.min.js')}}"></script>
+        <script type='text/javascript' src="{{url_for('static', filename='runvote/js/dialog.js')}}"></script>
+
+
+    <script>
+$(document).ready(function(){
+
+    $('.select-portfolio').click(function(){
+    
+     var csrf_token = '{{ csrf_token() }}',
+         url = document.location.href,
+         portfolio = $(this).attr('portfolio'),
+         portfolio_id = $(this).attr('port-number');
+        console.log($(this))
+         
+    var request = $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {id: portfolio_id, portfolio: portfolio, csrf_token: csrf_token}
+
+                });
+                request.done(function(msg){
+                    window.location.assign(msg)
+                });
+                request.fail(function(jqXHR, textStatus){
+                    alert(textStatus)
+                });
+
+    });
+
+   
+
+
+});
+        
+          </script>
+
+    </body>
+</html>

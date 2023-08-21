@@ -1,0 +1,88 @@
+{% extends 'runvote/base.html' %}
+{% block heading %} Electorates |  Edit {% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                |<li ><a href="{{url_for('runvote.voters_summary')}}">Summary</a></li>
+                |<li class=""><a href="{{url_for('runvote.add_voter')}}">Add</a></li>
+                |<li class="active"><a href="#">Edit</a></li>
+                |<li class=""><a href="{{url_for('runvote.import_csv')}}">Import csv</a></li>
+                |<li><a href="{{url_for('runvote.search_for_voter')}}">Search</a></li>|
+            </ul>
+
+        </nav>
+        <div class="forms">
+            
+             {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class='flash success'>
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+                {% if current_user.role in ['root', 'admin'] %}
+            <div class="add-single">
+                <form method="post">
+                     <div class="heading"><h1>  Edit  Electorate </h1> <a  href="?" class="button glow" >Reset</a></div>
+                    <span class="clear-fix"></span>
+                    {{form.csrf_token}}
+                        <div class="form-group">
+                             {% if form.id.errors %}
+                                <ul class="errors">{% for error in form.id.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.id.label}}
+                            {{form.id(value=voter.Elector.id)}}
+                        </div> 
+                        <div class="form-group">
+                             {% if form.first_name.errors %}
+                                <ul class="errors">{% for error in form.first_name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.first_name.label}}
+                            {{form.first_name(value=voter.Elector.first_name)}}
+                        </div> 
+                        <div class="form-group">
+                             {% if form.last_name.errors %}
+                                <ul class="errors">{% for error in form.last_name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{form.last_name.label}}
+                            {{form.last_name(value=voter.Elector.last_name)}}
+                        </div>
+                         
+                        <div class="form-group">
+                             {% if form.mobile.errors %}
+                                <ul class="errors">{% for error in form.mobile.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{form.mobile.label}}
+                            {% if voter.Elector.phone  %}
+                            {{form.mobile(value='0'+voter.Elector.phone)}}
+                            {% else %}
+                            {{form.mobile}}
+                            {% endif %}
+                        </div>
+                         <div class="form-group">
+                              {% if form.email.errors %}
+                                <ul class="errors">{% for error in form.email.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{form.email.label}}
+                            {{form.email(value=voter.Elector.email)}}
+                        </div>
+                        <div class="form-group">
+                             {% if form.level.errors %}
+                                <ul class="errors">{% for error in form.level.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{form.level.label}}
+                            {{form.level(value=voter.Elector.level)}}
+                        </div> 
+                          <div class="form-group">
+                         <label></label>
+                        {{form.submit(class='button glow button-action')}}
+                        </div>
+                    </form>
+            </div>
+            {% endif %}
+        </div>
+    {% endblock %} 

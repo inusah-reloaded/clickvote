@@ -1,0 +1,94 @@
+{% extends 'runvote/base.html' %}
+{% block heading %} Users |  Add {% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                |<li ><a href="{{url_for('runvote.user_list')}}">List</a></li>
+                |<li class="active"><a href="{{url_for('runvote.add_user')}}">Add</a></li>|
+            </ul>
+
+        </nav>
+        <div class="forms">
+             {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="flash" style="text-align: center;">
+                    <ul>
+                        {% for category, message in messages %}
+                        <li class="{{category}}">{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+                {% if current_user.role in ['root', 'admin'] %}
+            <div class="add-single">
+                <form method="post">
+                     <div class="heading"><h1>  Add  User</h1> <a  href="?" class="button glow" >Reset</a></div>
+                    <span class="clear-fix"></span>
+                    {{form.csrf_token}}
+                         
+                         <div class="form-group">
+                             {% if form.first_name.errors %}
+                                <ul class="errors">{% for error in form.first_name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.first_name.label}}
+                            {{form.first_name}}
+                        </div> 
+                         <div class="form-group">
+                             {% if form.last_name.errors %}
+                                <ul class="errors">{% for error in form.last_name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.last_name.label}}
+                            {{form.last_name}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.email.errors %}
+                                <ul class="errors">{% for error in form.email.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.email.label}}
+                            {{form.email}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.phone.errors %}
+                                <ul class="errors">{% for error in form.phone.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.phone.label}}
+                            {{form.phone}}
+                        </div>
+                        <div class="form-group">
+                             {% if form.username.errors %}
+                                <ul class="errors">{% for error in form.username.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.username.label}}
+                            {{form.username}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.password.errors %}
+                                <ul class="errors">{% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.password.label}}
+                            {{form.password}}
+                        </div>
+                         <div class="form-group">
+                             {% if form.confirm.errors %}
+                                <ul class="errors">{% for error in form.confirm.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.confirm.label}}
+                            {{form.confirm}}
+                        </div>
+                        <div class="form-group">
+                             {% if form.role.errors %}
+                                <ul class="errors">{% for error in form.role.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{form.role.label}}
+                            {{form.role}}
+                        </div>
+                         <div class="form-group">
+                         <label></label>
+                        {{form.submit(class='button glow button-action')}}
+                        </div>
+                    </form>
+            </div>
+            {% endif %}
+        </div>
+    {% endblock %} 

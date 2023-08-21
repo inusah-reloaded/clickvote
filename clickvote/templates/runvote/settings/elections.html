@@ -1,0 +1,123 @@
+{% extends 'runvote/settings/config_base.html' %}
+    {% block heading %} Elections | List{% endblock heading %}
+    {% block content %}
+         <nav class="nav">
+            <ul>
+                |<li class="active"><a href="{{url_for('runvote.elections')}}">List</a></li>
+                |<li><a href="{{url_for('runvote.create_election')}}">Create</a></li>
+            </ul>
+
+        </nav>
+        {% if current_user.role in ['admin', 'root'] %}
+
+        <div class="forms no-padding">
+            <div class="search-form glow">
+                <form method='post'>
+                    {{form.csrf_token}}
+                    {{form.identifier}}
+                    {{form.submit(class='button button-action')}}
+                </form>
+        </div>
+        <span class="clear-fix"></span>
+        <div class="search-result">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="level">ID</th>
+                        <th class="fname ">Label</th>
+                        <th class="lname ">Scope</th>
+                        <th class="phone ">Date</th>
+                        <!--<th class="department">Department</th>-->
+                        <th class="program ">Start Time</th>
+                        <th class="action ">Stop Time</th>
+                        <th class="fname">Status</th>
+                        <th class="action ">Action</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    {% if results %}
+                    {% for result in results %}
+                    <tr id="tr_{{result.id}}">
+                        <td class="level">{{result.id}}{{current_user.creato}}</td>
+                        <td class="fname">{{result.name}}</td>
+                        <td class="lname">{{result.scope}}</td>
+                        <td class="phone">{{result.date}}</td>
+                        <td class="program">{{result.start_time}}</td>
+                        <td class="level">{{result.stop_time}}</td>
+                        <td class-"fname"><select eid="{{result.id}}"style="width: 100px;" class="status">
+                                                <option selected>{{result.status}}</option>
+                                                <option>active</option>
+                                                <option>report</option>
+                                                <option>closed</option>
+                            </select></td>
+                        <td class="action">
+                            <a href="#" class="button button-primary edit" id="{{result.id}}"  name="" url="{{url_for('runvote.edit_election', id=result.id)}}">Edit</a>
+                            <a href="#" class="button button-caution delete" id="{{result.id}}" name="{{result.name}}" url="{{url_for('runvote.elections')}}">Del</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    {% endblock %} 
+
+    {% block script %}
+        <script>
+$(document).ready(function(){
+
+        var csrf_token = '{{csrf_token()}}',
+        url = window.location.href;
+
+    $('.status').on('change', function(){
+        var confirm_it = window.confirm('Do you want to change the election status?'),
+            eid = $(this).attr('eid'),
+            selected = $(this).val();
+
+        if (confirm_it){
+            make_request(eid, selected, csrf_token, url)
+        }
+    });
+    /*$('#edit').on('click', function(){
+        var confirm_it = window.confirm('Do you want to edit the Election info?'),
+            eid = $(this).attr('eid'),
+            selected = 'edit';
+
+        if (confirm_it){
+            make_request(eid, selected, csrf_token, url)
+        }
+    });
+    $('#del').on('click', function(){
+         var confirm_it = window.confirm('Do you want to Delete the election?'),
+            eid = $(this).attr('eid'),
+            selected = 'delete';
+
+        if (confirm_it){
+            make_request(eid, selected, csrf_token, url)
+        } 
+    
+    });*/
+    function make_request(eid, selected, csrf_token, url){
+
+         var request = $.ajax({
+            method: 'POST', 
+            url: url,
+            data: {id: eid, selection: selected, csrf_token: csrf_token}
+        
+        });
+        request.done(function(msg){
+            alert(msg) 
+        });
+
+        request.fail(function(jqXHR, textStatus){
+            alert(textStatus) 
+        });
+    }
+    
+
+
+});
+        </script>
+
+    {% endblock script %}

@@ -1,0 +1,35 @@
+{% extends 'runvote/settings/config_base.html' %}
+{% block heading %} Settings | Dashboard {% endblock heading %}
+    {% block content %}
+            <div class="boxes">
+                {% if current_user.role in ['admin', 'root'] %}
+                <a href="{{url_for('runvote.elections')}}"><div class="option-box">
+                    <h1>Manage Elections</h1>
+                    <span>Create elections and choose what settings to use</span>
+                </div></a>
+                <!--<a href="{{url_for('runvote.candidate_list')}}"><div class="option-box">
+                    <h1>Manage Candidates</h1>
+                    <span>Add, Remove, Edit or view Candidates</span>
+
+                </div></a>
+                <a href="{{url_for('runvote.user_list')}}"><div class="option-box">
+                    <h1>Manage Users</h1>
+                    <span>Add, Remove, change credentials of Users</span>
+                </div></a>
+                <a href="#"><div class="option-box">
+                    <h1>Elections Report</h1>
+                    <span>Real time statistics on elections, report generation, analysis etc.</span>
+                </div></a>
+                <a href="#"><div class="option-box">
+                    <h1>Activity Log</h1>
+                    <span>Activity Logs for all users</span>
+                </div></a>
+                <a href="#"><div class="option-box">
+                    <h1>Support Center</h1>
+                    <span>Having issues with something? Get support</span>
+
+                    </div></a>-->
+                    {% endif %}
+            </div>
+            <div class="clear-fix"></div>
+        {% endblock %} 

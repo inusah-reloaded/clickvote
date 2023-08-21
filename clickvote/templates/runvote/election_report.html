@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <title>GoVote | Vote</title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/dialog.css')}}">
+
+    </head>
+    <body>
+        <div id="dialogoverlay"></div>
+      <div id="dialogbox">
+      <div>
+      <div id="dialogboxhead"></div>
+      <div id="dialogboxbody"></div>
+      <div id="dialogboxfoot"></div>
+      </div>
+    </div> 
+    <header style="background: #fff;">
+        <nav id="report-nav">
+            {% if portfolios %}
+            <ul class='report-menu'>
+                |<li ><a href="{{url_for('runvote.console')}}" >Dashboard</a></li>
+                |<li class="select-portfolio" port-number="Summary" portfolio="Summary"><a href="#" >Summary</a></li>
+                {% for row in portfolios %}
+                {% if row not in ['Select Portfolio', None] %}
+                |<li class="select-portfolio" port-number="{{loop.index-1}}" portfolio="{{row}}"><a href="#" >{{row}}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </nav>
+       </header> 
+        <div class="logout">
+            <a href="{{url_for('auth.logout')}}" class="button glow button-royal">Logout</a>
+        </div>
+        <div class="content">
+            <div class="candidates-container report-container">
+                {% if report %}
+                <div class="position">
+                    <h1>Report for {{report[0][0].Portfolio.name}} </h1>
+                </div>
+                <hr>
+                <div class="other-counts">
+                    <span>Total Number of Votes {{total_votes-skip_count}} </span> |
+                    <span>Total Number of Skipped Votes {{skip_count}}</span>
+                </div>
+                <hr>
+               {% if report|count > 1 %}
+                {% for result in report %}
+                   <section class="display-candidates">
+                 
+                <div class="candidates">
+                     <div class="cid">
+                     <span class="cid-color">00{{result[0].Candidate.candidate_id}}</span> | 
+                     <span id="sp_{{report[0][0].Candidate.id}}">{{result[0].Elector.first_name|title}} {{result[0].Elector.last_name|title}}</span>
+                </div>
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+result[0].Candidate.photo)}}">
+                    </div>
+                    <div class="buttons report-values ">
+                        <a  class="yes ">{{result[1]}} <br>{% if result[1] != 0 %}{{((result[1] / (total_votes-skip_count))* 100)|round(2)}}{% else %}0{% endif %}%</a>
+                    </div>
+                </div>
+                </section>
+ 
+                <hr>
+                {% endfor %}
+                {% else %}
+                 <section class="display-candidates">
+                 <div class="cid">
+                     <span class="cid-color">00{{report[0][0].Candidate.candidate_id}}</span> | 
+                     <span id="sp_{{report[0][0].Candidate.id}}">{{report[0][0].Elector.first_name|title}} {{report[0][0].Elector.last_name|title}}</span>
+                </div>
+                <div class="candidates single">
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+report[0][0].Candidate.photo)}}">
+                    </div>
+                    <div class="buttons report-values ">
+                        <a  class="yes ">{{report[0][1]}} <br>{% if report[0][1] != 0 %}{{((report[0][1] / (total_votes-skip_count))* 100)|round(2)}}{% else %}0{% endif %}%</a>
+                        <a  class="single-right-button no">{{no_count}} <br>{% if no_count != 0 %}{{((no_count / (total_votes-skip_count))* 100)|round(2)}}{% else %}0{% endif %}%</a>
+                    </div>
+                </div>
+                </section>
+                {% endif %}
+
+ 
+            {% endif %}
+            <!--<footer>
+
+             </footer>-->
+
+
+
+        </div>
+        <script src="{{url_for('static', filename='node_modules/jquery/dist/jquery.min.js')}}"></script>
+        <script type='text/javascript' src="{{url_for('static', filename='runvote/js/dialog.js')}}"></script>
+
+
+    <script>
+$(document).ready(function(){
+
+    $('.select-portfolio').click(function(){
+    
+     var csrf_token = '{{ csrf_token() }}',
+         url = document.location.href,
+         portfolio = $(this).attr('portfolio'),
+         portfolio_id = $(this).attr('port-number');
+        console.log($(this))
+         
+    var request = $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {id: portfolio_id, portfolio: portfolio, csrf_token: csrf_token}
+
+                });
+                request.done(function(msg){
+                    window.location.assign(msg)
+                });
+                request.fail(function(jqXHR, textStatus){
+                    alert(textStatus)
+                });
+
+    });
+
+   
+
+
+});
+        
+          </script>
+
+    </body>
+</html>

@@ -1,0 +1,47 @@
+{% extends 'runvote/base.html' %}
+    {% block heading %} History | Log{% endblock heading %}
+    {% block content %}
+         <nav class="nav">
+            <ul>
+                |<li class="active"><a href="{{url_for('runvote.history')}}">Log</a></li>
+                |
+            </ul>
+
+        </nav>
+        {% if current_user.role in ['root', 'admin'] %}
+        <div class="forms no-padding">
+            <div class="search-form glow">
+                <form method='post'>
+                    {{form.csrf_token}}
+                    {{form.identifier}}
+                    {{form.submit(class='button button-action')}}
+                </form>
+        </div>
+        <span class="clear-fix"></span>
+        <div class="search-result">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="action ">CreatedBy</th>
+                        <th class="fname ">Action</th>
+                        <th class="desc">Description</th>
+                        <th class="phone ">TimeStamp</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    {% if results %}
+                    {% for result in results %}
+                    <tr id="tr_{{result.id}}">
+                        <td class="fname">{{result.createdby}}</td>
+                        <td class="lname">{{result.action}}</td>
+                        <td class="phone">{{result.description}}</td>
+                        <td class="program">{{result.timestamp}}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    {% endblock %} 

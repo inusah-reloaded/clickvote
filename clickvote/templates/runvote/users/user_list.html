@@ -1,0 +1,56 @@
+{% extends 'runvote/base.html' %}
+    {% block heading %} Users | List{% endblock heading %}
+    {% block content %}
+         <nav class="nav">
+            <ul>
+                |<li class="active"><a href="{{url_for('runvote.user_list')}}">List</a></li>
+                |<li><a href="{{url_for('runvote.add_user')}}">Add</a></li>
+            </ul>
+
+        </nav>
+        {% if current_user.role in ['root', 'admin'] %}
+        <div class="forms no-padding">
+            <div class="search-form glow">
+                <form method='post'>
+                    {{form.csrf_token}}
+                    {{form.identifier}}
+                    {{form.submit(class='button button-action')}}
+                </form>
+        </div>
+        <span class="clear-fix"></span>
+        <div class="search-result">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="action ">User Name</th>
+                        <th class="fname ">First name</th>
+                        <th class="lname ">Last Name</th>
+                        <th class="phone ">Phone</th>
+                        <!--<th class="department">Department</th>-->
+                        <th class="program ">Email</th>
+                        <th class="level ">Role</th>
+                        <th class="action ">Action</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    {% if results %}
+                    {% for result in results %}
+                    <tr id="tr_{{result.id}}">
+                        <td class="action">{{result.id}}</td>
+                        <td class="fname">{{result.first_name}}</td>
+                        <td class="lname">{{result.last_name}}</td>
+                        <td class="phone">0{{result.phone}}</td>
+                        <td class="program">{{result.email}}</td>
+                        <td class="level">{{result.role}}</td>
+                        <td class="action">
+                            <a href="#" class="button button-primary edit" id="{{result.id}}" name="{{result.username}}" url="{{url_for('runvote.edit_user', user_id=result.id)}}">Edit</a>
+                            <a href="#" class="button button-caution delete" id="{{result.id}}" name="{{result.first_name}}" url="{{url_for('runvote.user_list')}}">Del</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    {% endblock %} 

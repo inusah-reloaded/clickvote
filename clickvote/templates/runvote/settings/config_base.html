@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <title>GoVote  Console | Config</title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type"images/png" rel="icon" href="{{url_for('static', filename='site/images/icons/webceil_icon.ico')}}" sizes="32x32">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/govote_home.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
+    </head>
+    <body>
+        <header>
+            <div class="govote-logo">
+                <img src="{{url_for('static', filename='runvote/images/logo-ai1.png')}}"><span>Console | {% block heading %}{% endblock heading %}</span>
+            </div>
+            <div class="account dropdown">
+                <img src="{{url_for('static', filename='runvote/images/user-icon.png')}}">
+                <span>{{current_user.name}}</span>
+                <img src="{{url_for('static', filename='runvote/images/sort-down-icon.png')}}">
+                 <div class="dropdown-content">
+                     <ul class="menu">
+                         <li><a href="{% if current_user.role == 'root' %}{{url_for('runvote.edit_profile')}}{% else %}#{% endif %}">Profile</a></li>
+                         <li><a href="{{url_for('auth.logout')}}">Log Out </a></li>
+                     </ul>
+                </div>
+            </div>
+            <div class="clear-fix"></div>
+
+        </header>
+        <nav class="nav-left">
+            <div class=""><a href="{{url_for('runvote.console')}}"><img src="{{url_for('static', filename='runvote/images/home-icon.png')}}"></a></div>
+            <div class="active"><a href="{{url_for('runvote.settings')}}"><img src="{{url_for('static', filename='runvote/images/settings-icon.png')}}"></a></div>
+            <div ><a href="#"><img src="{{url_for('static', filename='runvote/images/ellipse.png')}}"></a></div>
+            <div ><a href="#"><img src="{{url_for('static', filename='runvote/images/doc-icon.png')}}"></a></div>
+
+
+
+        </nav>
+        <nav class="nav-right">
+        </nav>
+        <section class="main-section">
+            {% block content %}
+
+            {% endblock content %}
+        </section>
+        <footer>
+
+        </footer>
+        <script src="{{url_for('static', filename='node_modules/jquery/dist/jquery.min.js')}}"></script>
+        {% block script %}
+
+        {% endblock script %}
+
+    <script>
+        $(window).ready(function(){
+            $( '.fileContainer [type=file]' ).on( 'change', function updateFileName( event ){
+            var $input = $( this );
+            setTimeout( function delayResolution(){
+                $('#file-selected').text($input.val().replace(/([^\\]*\\)*/,''))
+                }, 0 )
+            } );
+
+
+            $('.delete').click(function(){
+                var csrf_token = '{{ csrf_token() }}',
+                url = $(this).attr('url'),
+                name = $(this).attr('name'),
+                id = $(this).attr('id'),
+                confirmed = confirm('Do you want to Delete  '+ name +'?');
+
+                if(confirmed === true){
+
+                    var request = $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {id: id, action: 'delete', csrf_token: csrf_token}
+
+                    });
+                    request.done(function(msg){
+                        $('#tr_'+id).fadeOut(500)
+                    });
+                    request.fail(function(jqXHR, textStatus){
+                        alert(textStatus)
+                    });
+                }
+            });
+             $('.edit').click(function(){
+                var csrf_token = '{{ csrf_token() }}',
+                    action = 'edit',
+                    id = $(this).attr('id'),
+                     url = $(this).attr('url'),
+                    name = $(this).attr('name'),
+                    confirmed = confirm('Do you want to edit  '+ name +'\'s info?');
+
+                if(confirmed === true){
+                    window.location = url
+                }
+            });
+
+        })
+    </script>
+
+    </body>
+</html>
+

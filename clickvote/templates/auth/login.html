@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+    <head>
+        <title>GoVote | login </title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type"images/png" rel="icon" href="{{url_for('static', filename='site/images/icons/webceil_icon.ico')}}" sizes="64x64">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
+
+
+    </head>
+    <body>
+        <header>
+            <img src="{{url_for('static', filename='runvote/images/logo.png')}}">
+        </header>
+        <div class="content">
+                {% with messages = get_flashed_messages() %}
+                
+                    {% if messages %}
+                <div class="alert">
+                 <span> <a href="#">&times;</a></span>
+                 <span class="clear-fix"></span>
+                        <ul >
+                        {% for message in messages %}
+                        <li> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                    {% endif %}
+                {% endwith %}
+            <div class="login">
+                <div class="logo">
+                    <img src="{{url_for('static', filename='runvote/images/govote.png')}}">
+                </div>
+                
+                <form method='post'>
+                    {{form.csrf_token}}
+                    <!--<input type="text" placeholder="Enter ID">-->
+                    {{form.id(placeholder='Enter ID')}}
+                    <!--<input type="text" placeholder="Password">-->
+                    {{form.password(placeholder='Password')}}
+                    <!--<button type="submit"><img src="{{url_for('static',
+                        filename='govote/images/button.png')}}"></button>-->
+                    {{form.submit(class='button glow button-royal')}}
+                </form>
+
+            </div>
+
+        </div>
+        <footer>
+
+        </footer>
+
+    </body>
+</html>

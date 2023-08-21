@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <title>GoVote | Vote</title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/dialog.css')}}">
+
+    </head>
+    <body>
+        <div id="dialogoverlay"></div>
+      <div id="dialogbox">
+      <div>
+      <div id="dialogboxhead"></div>
+      <div id="dialogboxbody"></div>
+      <div id="dialogboxfoot"></div>
+      </div>
+    </div> 
+       <!-- <header>
+            <img src="logo.png">
+       </header> -->
+        <div class="skip">
+            <a href="{{url_for('auth.logout')}}" class="button glow button-royal">Logout</a>
+        </div>
+        <div class="content">
+            <div class="candidates-container">
+                <div class="position">
+                    <!--<img src="{{url_for('static',
+                        filename='runvote/images/govote.png')}}">-->
+                        
+                <h1>Vote Summary</h1>
+                </div>
+                <hr>
+                {% if result %}
+                {% for row in result %}
+                {% if row %}
+                {% if row[0] == 'NO' %}
+                <section class="display-candidates summary">
+                <div class="candidate-id">
+                 <div class="cid">
+                     <span class="cid-color">{% if row[1].Candidate.id < 10 %}00{% else %}0{% endif%}{{row[1].Candidate.id}}</span> | 
+                     <span id=""> {{row[1].Elector.first_name|title}} {{row[1].Elector.last_name|title}}</span>
+                </div>
+                </div>
+                <div class="candidates">
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+row[1].Candidate.photo)}}">
+                    </div>
+                    <div class="summary-port" style=''>
+                        <h1 style=''>{{row[1].Portfolio.name}}</h1>
+                        <h1 style='color: red; font-size: 40px;'>{{row[0]}}</h1>
+                    </div>
+                </div>
+                </section>
+                <hr>
+                {% elif row[0] == 'SKIP' %}
+                 <section class="display-candidates summary">
+                <div class="candidate-id">
+                 <div class="cid">
+                     <span class="cid-color"></span>  
+                     <span id=""> </span>
+                </div>
+                </div>
+                <div class="candidates">
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+row[1].Candidate.photo)}}">
+                    </div>
+                    <div class="summary-port" style=''>
+                        <h1 style=''>{{row[1].Portfolio.name}}</h1>
+                        <h1 style='color: red; font-size: 40px;'>{{row[0]}}</h1>
+                    </div>
+                </div>
+                </section>
+                <hr>
+                {% else %}
+                 <section class="display-candidates summary">
+                <div class="candidate-id">
+                 <div class="cid">
+                     <span class="cid-color">{% if row.Candidate.id < 10 %}00{% else %}0{% endif%}{{row.Candidate.id}}</span> | 
+                     <span id=""> {{row.Elector.first_name|title}} {{row.Elector.last_name|title}}</span>
+                </div>
+                </div>
+                <div class="candidates">
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+row.Candidate.photo)}}">
+                    </div>
+                    <div class="summary-port" style=''>
+                        <h1 style=''>{{row.Portfolio.name}}</h1>
+                    </div>
+                </div>
+                </section>
+                <hr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endif %} 
+            </div>
+             
+             <!--<footer>
+
+             </footer>-->
+
+
+
+        </div>
+        <script type='text/javascript' src="{{url_for('static', filename='runvote/js/dialog.js')}}"></script>
+
+
+    <script>
+       var csrf_token = '{{ csrf_token() }}' 
+        function voteCandidate(sid, crid, ceid, eid){
+
+
+	if(XMLHttpRequestObject){
+            var url = window.location.href;
+
+        XMLHttpRequestObject.open("POST", url);
+        XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        XMLHttpRequestObject.onreadystatechange = function(){
+            if(XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200){
+                var obj = XMLHttpRequestObject.responseText;
+
+                if(obj){
+                    window.location.assign(obj);
+                    //console.log(obj);
+                }
+
+            }
+
+        }
+        XMLHttpRequestObject.send("crid=" + crid + "&sid=" + sid + '&ceid=' + ceid +'&eid='+eid +'&csrf_token=' + csrf_token);
+    }
+
+
+}
+    </script>
+
+    </body>
+</html>

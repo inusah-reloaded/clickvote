@@ -1,0 +1,14 @@
+{% extends 'runvote/base.html' %}
+    {% block heading %} Electorates | Summary{% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                |<li class="active"><a href="{{url_for('runvote.voters_summary')}}">Summary</a></li>
+                |<li><a href="{{url_for('runvote.add_voter')}}">Add</a></li>
+                |<li class=""><a href="{{url_for('runvote.import_csv')}}">Import csv</a></li>
+                |<li class=""><a href="{{url_for('runvote.search_for_voter')}}">Search</a></li>|
+
+            </ul>
+        </nav>
+            
+    {% endblock %} 

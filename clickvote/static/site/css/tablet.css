@@ -1,0 +1,59 @@
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+   header .logo img {
+       left: 20px;
+   }
+   #main-section .headings h1 {
+       width: 50%;
+       margin: 20px auto;
+   }
+   #main-section .headings h3 {
+       font-size: 20px;
+   }
+   h3.first {
+       width: 680px;
+   }
+   h3.second {
+       width: 670px;
+   }
+   h3.third {
+       width:520px; 
+   }
+   .service-boxes {
+       width: 768px;
+       margin:20px auto 0 auto;
+   }
+   .service-boxes div p {
+       font-size: 14px;
+       font-style: normal;
+       line-height: 1.4;
+   }
+
+   
+    
+   .contact-section {
+       background: url('../images/contactbgtab.png');
+       background-repeat: no-repeat;
+       background-size: cover;
+       width: 100%;
+   }
+   .contact-section .content div {
+       padding: 40px 0 0 40px;
+   }
+   .contact-section .content h1 {
+        font-size: 16px;
+    }
+    .contact-section span {
+        display: block;
+       margin-top: 10px; 
+    }
+   footer {
+       width: 100%;
+   }
+   footer .social-icons {
+       margin: auto 15px;
+   }
+   footer .copyright {
+       margin: auto 15px;
+
+   
+}

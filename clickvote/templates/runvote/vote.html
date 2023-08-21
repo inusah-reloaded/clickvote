@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <title>GoVote | Vote</title>
+        <meta charset="utf-8" lang="en">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/dialog.css')}}">
+
+    </head>
+    <body>
+        <div id="dialogoverlay"></div>
+      <div id="dialogbox">
+      <div>
+      <div id="dialogboxhead"></div>
+      <div id="dialogboxbody"></div>
+      <div id="dialogboxfoot"></div>
+      </div>
+    </div> 
+       <!-- <header>
+            <img src="logo.png">
+       </header> -->
+        <div class="skip">
+            {% if results %}
+            {% endif%}
+            <a href="#" class="button glow button-royal" onclick="confirm.render('skip','{{current_user.user_id}}', '', '', '{{election}}')">Skip</a>
+        </div>
+        <div class="content">
+            <div class="candidates-container">
+                <div class="position">
+                    <!--<img src="{{url_for('static',
+                        filename='runvote/images/govote.png')}}">-->
+                        
+                {% if results %}
+                <h1>Candidats for {{results[0].Candidate.portfolio}}</h1>
+                </div>
+                <hr>
+                {% if results|count > 1 %}
+                {% for result in results %}
+                <section class="display-candidates">
+                <div class="candidate-id">
+                 <div class="cid">
+                     <span class="cid-color">00{{result.Candidate.candidate_id}}</span> | 
+                     <span id="sp_{{result.Candidate.id}}">{{result.Elector.first_name|title}} {{result.Elector.last_name|title}}</span>
+                </div>
+                </div>
+                <div class="candidates">
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+result.Candidate.photo)}}">
+                    </div>
+                    <div class="buttons buttons-double">
+                        <a href="#" class="button glow button-action votebutton"onclick="confirm.render('vote', '{{current_user.user_id}}', '{{result.Candidate.id}}', '{{result.Candidate.elector_id}}', '{{election}}')">Vote</a>
+                    </div>
+                </div>
+                </section>
+                <hr>
+                {% endfor %}
+                {% else %}
+                 <section class="display-candidates">
+                 <div class="cid">
+                     <span class="cid-color">00{{results[0].Candidate.candidate_id}}</span> | 
+                     <span id="sp_{{results[0].Candidate.id}}">{{results[0].Elector.first_name|title}} {{results[0].Elector.last_name|title}}</span>
+                </div>
+                <div class="candidates single">
+                    <div class="candidate-pic" >
+                        <img src="{{url_for('uploaded_file', filename='images/'+results[0].Candidate.photo)}}">
+                    </div>
+                        {% set elector_id = current_user.user_id%}
+                        {% set cid = results[0].Candidate.candidate_id %}
+                        {% set crid = results[0].Candidate.id %}
+                        {% set ceid = results[0].Candidate.elector_id %}
+                    <div class="buttons">
+                        <a href="#" class="button glow button-action " onclick="confirm.render('YES', '{{elector_id}}','{{crid}}', '{{ceid}}', '{{election}}')">Yes</a>
+                        <a href="#" class="button glow button-caution single-right-button"  onclick="confirm.render('NO', '{{elector_id}}','{{crid}}', '{{ceid}}' , '{{election}}')">No</a>
+                    </div>
+                </div>
+                </section>
+                {% endif %}
+                {% endif %}
+
+            </div>
+             <!--<footer>
+
+             </footer>-->
+
+
+
+        </div>
+        <script type='text/javascript' src="{{url_for('static', filename='runvote/js/dialog.js')}}"></script>
+
+
+    <script>
+       var csrf_token = '{{ csrf_token() }}' 
+        function voteCandidate(sid, crid, ceid, eid){
+
+
+	if(XMLHttpRequestObject){
+            var url = window.location.href;
+
+        XMLHttpRequestObject.open("POST", url);
+        XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        XMLHttpRequestObject.onreadystatechange = function(){
+            if(XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200){
+                var obj = XMLHttpRequestObject.responseText;
+
+                if(obj){
+                    window.location.assign(obj);
+                    //console.log(obj);
+                }
+
+            }
+
+        }
+        XMLHttpRequestObject.send("crid=" + crid + "&sid=" + sid + '&ceid=' + ceid +'&eid='+eid +'&csrf_token=' + csrf_token);
+    }
+
+
+}
+    </script>
+
+    </body>
+</html>

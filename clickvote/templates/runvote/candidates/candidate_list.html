@@ -1,0 +1,181 @@
+{% extends 'runvote/base.html' %}
+    {% block heading %} Candidates | List{% endblock heading %}
+    {% block content %}
+         <nav class="nav">
+            <ul>
+                |<li class="active"><a href="{{url_for('runvote.candidate_list')}}">List</a></li>
+                |<li><a href="{{url_for('runvote.add_candidate')}}">Add</a></li>
+            </ul>
+
+        </nav>
+<style>
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    height: 150px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.info {
+    display: inline-block;
+    padding-top: 10px;
+}
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div style="">
+        <div id="modal-photo-div" style="height:100%; float: left;">
+            <img id="modal-photo" src="" style="height: 150px; width: 150px;">
+        </div>
+        <div id="modal-info" style="font-size: 18px; margin-padding: 5px; float: none;">
+            <span id="cfirst-name"></span> <br>
+            <span id="clast-name" class="info"></span><br>
+            <span id="cphone" class="info"></span><br>
+            <span id="cportfolio" class="info"></span>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+
+        <div class="container no-padding">
+        {% if current_user.role in ['root', 'admin'] and current_user.active_election %}
+            <div class="search-form glow">
+                <form method='post'>
+                    {{form.csrf_token}}
+                    {{form.identifier}}
+                    {{form.submit(class='button button-action')}}
+                </form>
+        </div>
+        <span class="clear-fix"></span>
+        <div class="search-result">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="id">CID</th>
+                        <th class="fname ">First Name</th>
+                        <th class="lname ">Last Name</th>
+                        <th class="phone ">Phone</th>
+                        <th class="action">Portfolio</th>
+                        <th class="photo">Photo</th>
+                        <th class="action ">Action</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    {% if results %}
+                    {% for result in results %}
+                    <tr id="tr_{{result.Candidate.id}}">
+                        <td class="id">{{result.Candidate.candidate_id}}</td>
+                        <td class="fname">{{result.Elector.first_name}}</td>
+                        <td class="lname">{{result.Elector.last_name}}</td>
+                        <td class="phone">{{result.Elector.phone}}</td>
+                        <td class="action">{{result.Candidate.portfolio}}</td>
+                        <td class="photo"><img src="{{url_for('uploaded_file', filename='images/'+result.Candidate.photo)}}" style="width: 50px; height: 30px"></td>
+                        <td class="action"><a href="#"class="button button-action view" id="{{result.Candidate.id}}" url="{{url_for('runvote.candidate_list')}}">View</a><a href="{{url_for('runvote.edit_candidate', id=result.Candidate.id)}}"class="button button-primary">Edit</a>
+                            <a href="#" id="{{result.Candidate.id}}" name="{{result.Elector.first_name}} {{result.Elector.last_name}}" url="{{url_for('runvote.candidate_list')}}" class="button button-caution delete" >Del</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+            {% else %}
+            No active election
+            {% endif %}
+        </div>
+        
+    {% endblock %} 
+    {% block script %}
+     <script>
+         $(window).ready(function(){
+             $('.view').click(function(){
+                var id =  $(this).attr('id'),
+                csrf_token = '{{ csrf_token() }}',
+                     url = $(this).attr('url');
+
+                $('#myModal').css("display", 'block'); 
+                 var request = $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {id: id, action: 'view', csrf_token: csrf_token}
+
+                    });
+                    request.done(function(msg){
+                        var obj = JSON.parse(msg)
+                        console.log(obj)
+                        $('#modal-photo').attr('src', '/uploads/images/'+ obj['photo'])
+                        $('#cfirst-name').html('First Name: '+obj['first_name'])
+                        $('#clast-name').html('Last Name: '+obj['last_name'])
+                        $('#cphone').html('Phone: '+obj['phone'])
+                        $('#cportfolio').html('Portfolio: '+obj['portfolio'])
+                    });
+                    request.fail(function(jqXHR, textStatus){
+                        alert(textStatus)
+                        console.log(textStatus)
+                    });
+            });
+         }); 
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementsByClassName(".view");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    {% endblock script %}

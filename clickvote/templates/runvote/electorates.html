@@ -1,0 +1,13 @@
+{% extends 'govote/base.html' %}
+    {% block heading %} Electorates{% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                <li class="active">Summary</li>
+                <li><a href="{{url_for('electorates.add')}}">Add</a></li>
+                  <li><a href="#">Search</a></li>
+            </ul>
+
+        </nav>
+            
+    {% endblock %} 

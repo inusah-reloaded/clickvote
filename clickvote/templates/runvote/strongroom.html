@@ -1,0 +1,45 @@
+<html>
+	<head>
+		
+		<title>Strong Room</title>
+        <meta charset="utf-8" http-equiv="refresh" content="10"/>
+        <link type="text/css" href="{{url_for('static', filename='runvote/css/strongroom.css')}}" rel="stylesheet"> 
+        <link type="text/css" href="{{url_for('static', filename='buttons/css/buttons.css')}}" rel="stylesheet"> 
+
+	</head>
+
+	<body>
+        <div class="main">
+                <div id="totalvotes">
+            
+                    <p style="color: #E9633B">Registered Voters: {{total_registered}}</p>
+                    <p style="color:green">Voter Turnout: {{turnout}}</p>
+                    <a href="{{url_for('auth.logout')}}" class="button glow button-royal" style="float: right;">logout</a>
+                </div>
+                {% if current_user.role in ['root', 'admin', 'strongroom'] %}
+        <div class="results">
+		
+            <div class="portfolio-align" >
+            {% for p in get_all_portfolios(current_user.active_election) %}
+            {% if p %}
+            {% if 'Select Portfolio' not in p %}
+            {% for candidate in report_election(current_user.school, current_user.scope, current_user.active_election, (loop.index-1)|string, p) %}
+                <div class="table">
+                    <div  class="position">{{candidate[0].Portfolio.name}}</div>
+                    <div class="cid ">CID: {%if candidate[0].Candidate.id < 10 %}00{% else %}0{% endif %}{{candidate[0].Candidate.id}}</div>
+                    <div class="name">{{candidate[0].Elector.first_name|title}} {{candidate[0].Elector.last_name|title}}</div>
+            
+                    <div class="votes"><p>{{candidate[1]}}</p></div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+           </div>
+        
+            <div class="clear-fix"></div>
+
+            
+        </div>
+</div>

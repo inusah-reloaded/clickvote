@@ -1,0 +1,77 @@
+{% extends 'runvote/base.html' %}
+{% block heading %} Electorates |  Add {% endblock heading %}
+    {% block content %}
+        <nav class="nav">
+            <ul>
+                |<li ><a href="{{url_for('runvote.voters_summary')}}">Summary</a></li>
+                |<li class="active"><a href="{{url_for('runvote.add_voter')}}">Add</a></li>
+                |<li class=""><a href="{{url_for('runvote.import_csv')}}">Import csv</a></li>
+                |<li><a href="{{url_for('runvote.search_for_voter')}}">Search</a></li>|
+            </ul>
+
+        </nav>
+         
+        {% if current_user.role in ['admin', 'root'] %}
+        <div class="forms">
+            
+             {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class='flash' style="text-align: center;">
+                    <ul>
+                        {% for category, message in messages %}
+                        <li class="{{category}}">{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+            <div class="add-single">
+                <form method="post">
+                     <div class="heading"><h1> {% if not electorate_info %} Add {% else %} Edit {% endif %} Electorate </h1> <a  href="?" class="button glow" >Reset</a></div>
+                    <span class="clear-fix"></span>
+                    {{add_form.csrf_token}}
+                        <div class="form-group">
+                             {% if add_form.id.errors %}
+                                <ul class="errors">{% for error in add_form.id.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{add_form.id.label}}
+                            {{add_form.id}}
+                        </div> 
+                        <div class="form-group">
+                             {% if add_form.first_name.errors %}
+                                <ul class="errors">{% for error in add_form.first_name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %} 
+                            {{add_form.first_name.label}}
+                            {{add_form.first_name}}
+                        </div> 
+                        <div class="form-group">
+                             {% if add_form.last_name.errors %}
+                                <ul class="errors">{% for error in add_form.last_name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{add_form.last_name.label}}
+                            {{add_form.last_name}}
+                        </div>
+                        
+                         <div class="form-group">
+                              {% if add_form.email.errors %}
+                                <ul class="errors">{% for error in add_form.email.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{add_form.email.label}}
+                            {{add_form.email}}
+                        </div>
+                        <div class="form-group">
+                             {% if add_form.level.errors %}
+                                <ul class="errors">{% for error in add_form.level.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                            {% endif %}
+                            {{add_form.level.label}}
+                            {{add_form.level}}
+                        </div> 
+                          <div class="form-group">
+                         <label></label>
+                        {{add_form.submit(class='button glow button-action')}}
+                        </div>
+                    </form>
+            </div>
+            {% endif %}
+        </div>
+    {% endblock %} 
