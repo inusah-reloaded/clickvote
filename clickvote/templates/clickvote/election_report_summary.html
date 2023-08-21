@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='clickvote/css/login_vote.css')}}">
         <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
-        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/dialog.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='clickvote/css/dialog.css')}}">
 
     </head>
     <body>
@@ -23,7 +23,7 @@
         <nav id="report-nav">
             {% if portfolios %}
             <ul class='report-menu'>
-                |<li><a href="{{url_for('runvote.console')}}" >Dashboard</a></li>
+                |<li><a href="{{url_for('clickvote.console')}}" >Dashboard</a></li>
                 |<li class="select-portfolio" port-number="Summary" portfolio="Summary"><a href="#" >Summary</a></li>
                 {% for row in portfolios %}
                 {% if row not in ['Select Portfolio', None] %}
@@ -69,7 +69,7 @@
 
         </div>
         <script src="{{url_for('static', filename='node_modules/jquery/dist/jquery.min.js')}}"></script>
-        <script type='text/javascript' src="{{url_for('static', filename='runvote/js/dialog.js')}}"></script>
+        <script type='text/javascript' src="{{url_for('static', filename='clickvote/js/dialog.js')}}"></script>
 
 
     <script>

@@ -1,10 +1,10 @@
-{% extends 'runvote/base.html' %}
+{% extends 'clickvote/base.html' %}
     {% block heading %} Candidates | List{% endblock heading %}
     {% block content %}
          <nav class="nav">
             <ul>
-                |<li class="active"><a href="{{url_for('runvote.candidate_list')}}">List</a></li>
-                |<li><a href="{{url_for('runvote.add_candidate')}}">Add</a></li>
+                |<li class="active"><a href="{{url_for('clickvote.candidate_list')}}">List</a></li>
+                |<li><a href="{{url_for('clickvote.add_candidate')}}">Add</a></li>
             </ul>
 
         </nav>
@@ -108,8 +108,8 @@
                         <td class="phone">{{result.Elector.phone}}</td>
                         <td class="action">{{result.Candidate.portfolio}}</td>
                         <td class="photo"><img src="{{url_for('uploaded_file', filename='images/'+result.Candidate.photo)}}" style="width: 50px; height: 30px"></td>
-                        <td class="action"><a href="#"class="button button-action view" id="{{result.Candidate.id}}" url="{{url_for('runvote.candidate_list')}}">View</a><a href="{{url_for('runvote.edit_candidate', id=result.Candidate.id)}}"class="button button-primary">Edit</a>
-                            <a href="#" id="{{result.Candidate.id}}" name="{{result.Elector.first_name}} {{result.Elector.last_name}}" url="{{url_for('runvote.candidate_list')}}" class="button button-caution delete" >Del</a></td>
+                        <td class="action"><a href="#"class="button button-action view" id="{{result.Candidate.id}}" url="{{url_for('clickvote.candidate_list')}}">View</a><a href="{{url_for('clickvote.edit_candidate', id=result.Candidate.id)}}"class="button button-primary">Edit</a>
+                            <a href="#" id="{{result.Candidate.id}}" name="{{result.Elector.first_name}} {{result.Elector.last_name}}" url="{{url_for('clickvote.candidate_list')}}" class="button button-caution delete" >Del</a></td>
                     </tr>
                     {% endfor %}
                     {% endif %}

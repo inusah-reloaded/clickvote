@@ -1,10 +1,10 @@
-{% extends 'runvote/settings/config_base.html' %}
+{% extends 'clickvote/settings/config_base.html' %}
 {% block heading %} Elections |  Create {% endblock heading %}
     {% block content %}
         <nav class="nav">
             <ul>
-                |<li ><a href="{{url_for('runvote.elections')}}">List</a></li>
-                |<li class="active"><a href="{{url_for('runvote.create_election')}}">Create</a></li>|
+                |<li ><a href="{{url_for('clickvote.elections')}}">List</a></li>
+                |<li class="active"><a href="{{url_for('clickvote.create_election')}}">Create</a></li>|
             </ul>
 
         </nav>

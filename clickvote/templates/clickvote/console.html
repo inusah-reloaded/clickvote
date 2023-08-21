@@ -1,36 +1,36 @@
-{% extends 'runvote/base.html' %}
+{% extends 'clickvote/base.html' %}
     {% block heading %} Dashboard {% endblock heading %}
     {% block content %}
             <div class="boxes">
                 {% if current_user.role in ['admin', 'root', 'user'] %}
-                <a href="{{url_for('runvote.voters_summary')}}"><div class="option-box">
+                <a href="{{url_for('clickvote.voters_summary')}}"><div class="option-box">
                     <h1>Manage Electorates</h1>
                     <span>Upload voter data, Edit voter info,
                         add voters etc.</span>
                 </div></a>
                 {% endif %}
                 {% if current_user.role in ['admin', 'root'] %}
-                <a href="{{url_for('runvote.candidate_list')}}"><div class="option-box">
+                <a href="{{url_for('clickvote.candidate_list')}}"><div class="option-box">
                     <h1>Manage Candidates</h1>
                     <span>Add, Remove, Edit or view Candidates</span>
 
                 </div></a>
-                <a href="{{url_for('runvote.user_list')}}"><div class="option-box">
+                <a href="{{url_for('clickvote.user_list')}}"><div class="option-box">
                     <h1>Manage Users</h1>
                     <span>Add, Remove, change credentials of Users</span>
                 </div></a>
-                <a href="{% if current_user.active_election %}{{url_for('runvote.election_report', school=current_user.school, scope=current_user.scope, 
+                <a href="{% if current_user.active_election %}{{url_for('clickvote.election_report', school=current_user.school, scope=current_user.scope, 
                 election=current_user.active_election, pid='Summary', portfolio='Summary')}}{% else %}#{% endif %}"><div class="option-box">
                     <h1>Elections Report</h1>
                     <span>Real time statistics on elections, report generation, analysis etc.</span>
                 </div></a>
-                 <a href="{{url_for('runvote.history')}}"><div class="option-box">
+                 <a href="{{url_for('clickvote.history')}}"><div class="option-box">
                     <h1>History Log</h1>
                     <span>Check history of individual actions</span>
                 </div></a>
                 {% endif %}
                 {% if current_user.role in ['root', 'admin', 'strongroom'] %}
-                <a href="{% if current_user.active_election %}{{url_for('runvote.strongroom', school=current_user.school, scope=current_user.scope, election=current_user.active_election)}}{% else %}#{% endif %}"><div class="option-box">
+                <a href="{% if current_user.active_election %}{{url_for('clickvote.strongroom', school=current_user.school, scope=current_user.scope, election=current_user.active_election)}}{% else %}#{% endif %}"><div class="option-box">
                     <h1>Strongroom</h1>
                     <span>Realtime election statistics</span>
                 </div></a>

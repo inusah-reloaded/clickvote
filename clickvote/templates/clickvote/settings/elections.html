@@ -1,10 +1,10 @@
-{% extends 'runvote/settings/config_base.html' %}
+{% extends 'clickvote/settings/config_base.html' %}
     {% block heading %} Elections | List{% endblock heading %}
     {% block content %}
          <nav class="nav">
             <ul>
-                |<li class="active"><a href="{{url_for('runvote.elections')}}">List</a></li>
-                |<li><a href="{{url_for('runvote.create_election')}}">Create</a></li>
+                |<li class="active"><a href="{{url_for('clickvote.elections')}}">List</a></li>
+                |<li><a href="{{url_for('clickvote.create_election')}}">Create</a></li>
             </ul>
 
         </nav>
@@ -51,8 +51,8 @@
                                                 <option>closed</option>
                             </select></td>
                         <td class="action">
-                            <a href="#" class="button button-primary edit" id="{{result.id}}"  name="" url="{{url_for('runvote.edit_election', id=result.id)}}">Edit</a>
-                            <a href="#" class="button button-caution delete" id="{{result.id}}" name="{{result.name}}" url="{{url_for('runvote.elections')}}">Del</a>
+                            <a href="#" class="button button-primary edit" id="{{result.id}}"  name="" url="{{url_for('clickvote.edit_election', id=result.id)}}">Edit</a>
+                            <a href="#" class="button button-caution delete" id="{{result.id}}" name="{{result.name}}" url="{{url_for('clickvote.elections')}}">Del</a>
                         </td>
                     </tr>
                     {% endfor %}

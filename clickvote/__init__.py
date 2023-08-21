@@ -6,7 +6,7 @@ from flask import Flask, send_from_directory
 
 from config import config
 from .core import db, csrf, login_manager
-from runvote.models import Account, Role
+from clickvote.models import Account, Role
 
 appdir = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,12 +24,12 @@ def create_app(config_name):
 #    excel.init_excel(app)
     csrf.init_app(app)
     login_manager.init_app(app)
-    from .views import runvote
+    from .views import clickvote
     from .auth import auth
-    app.register_blueprint(runvote, url_prefix='/console')
+    app.register_blueprint(clickvote, url_prefix='/console')
     app.register_blueprint(auth)
 
-#    admin = Admin(app, name='runvote admin', template_mode='bootstrap3')
+#    admin = Admin(app, name='clickvote admin', template_mode='bootstrap3')
 #    admin.add_view(ModelView(Role, db.session))
 #    admin.add_view(ModelView(Account, db.session))
 

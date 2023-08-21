@@ -1,18 +1,18 @@
-{% extends 'runvote/settings/config_base.html' %}
+{% extends 'clickvote/settings/config_base.html' %}
 {% block heading %} Settings | Dashboard {% endblock heading %}
     {% block content %}
             <div class="boxes">
                 {% if current_user.role in ['admin', 'root'] %}
-                <a href="{{url_for('runvote.elections')}}"><div class="option-box">
+                <a href="{{url_for('clickvote.elections')}}"><div class="option-box">
                     <h1>Manage Elections</h1>
                     <span>Create elections and choose what settings to use</span>
                 </div></a>
-                <!--<a href="{{url_for('runvote.candidate_list')}}"><div class="option-box">
+                <!--<a href="{{url_for('clickvote.candidate_list')}}"><div class="option-box">
                     <h1>Manage Candidates</h1>
                     <span>Add, Remove, Edit or view Candidates</span>
 
                 </div></a>
-                <a href="{{url_for('runvote.user_list')}}"><div class="option-box">
+                <a href="{{url_for('clickvote.user_list')}}"><div class="option-box">
                     <h1>Manage Users</h1>
                     <span>Add, Remove, change credentials of Users</span>
                 </div></a>

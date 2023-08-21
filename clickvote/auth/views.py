@@ -2,7 +2,7 @@ from flask import render_template, request, url_for, redirect, flash, session
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .forms import LoginForm, VoterLoginForm
-from runvote.models import Account, User, Elector
+from clickvote.models import Account, User, Elector
 from ..helpers import get_active_election, validate_vote_url, \
      get_elector_status, set_history
 
@@ -35,7 +35,7 @@ def voter_login():
                     portfolio = validate_vote_url(elector.id, election)
                     if portfolio == 'voted':
                         # flash('You have finished voting')
-                        return redirect(url_for('runvote.vote_summary',
+                        return redirect(url_for('clickvote.vote_summary',
                                                 school=school,
                                                 scope=scope,
                                                 department=department,
@@ -43,13 +43,13 @@ def voter_login():
 
                     if scope in 'dep':
                         return redirect(
-                                        url_for('runvote.vote', school=school,
+                                        url_for('clickvote.vote', school=school,
                                                 scope=scope,
                                                 department=department,
                                                 election=election,
                                                 portfolio=portfolio))
                     return redirect(request.args.get('next') or
-                                    url_for('runvote.vote', school=school,
+                                    url_for('clickvote.vote', school=school,
                                             scope=scope,
                                             election=election,
                                             portfolio=portfolio))
@@ -78,7 +78,7 @@ def login():
             login_user(user)
             set_history('Login', 'logged in', user.id)
             return redirect(request.args.get('next') or
-                            url_for('runvote.console'))
+                            url_for('clickvote.console'))
 
         if account is not None and account.verify_password(form.password.data):
             e = get_active_election(account.id, account.institution)
@@ -89,7 +89,7 @@ def login():
             login_user(account)
             set_history('Login', 'logged in', account.name)
             return redirect(request.args.get('next') or
-                            url_for('runvote.console'))
+                            url_for('clickvote.console'))
 
         '''
         if elector is not None and elector.verify_password(form.password.data):
@@ -108,7 +108,7 @@ def login():
                 portfolio = validate_vote_url(elector.id, election)
                 if portfolio == 'voted':
                     # flash('You have finished voting')
-                    return redirect(url_for('runvote.vote_summary',
+                    return redirect(url_for('clickvote.vote_summary',
                                             school=school,
                                             scope=scope,
                                             department=department,
@@ -116,13 +116,13 @@ def login():
 
                 if scope in 'dep':
                     return redirect(
-                                    url_for('runvote.vote', school=school,
+                                    url_for('clickvote.vote', school=school,
                                             scope=scope,
                                             department=department,
                                             election=election,
                                             portfolio=portfolio))
                 return redirect(request.args.get('next') or
-                                url_for('runvote.vote', school=school,
+                                url_for('clickvote.vote', school=school,
                                         scope=scope,
                                         election=election, portfolio=portfolio))
             '''

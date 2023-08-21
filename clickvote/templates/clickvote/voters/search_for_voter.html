@@ -1,12 +1,12 @@
-{% extends 'runvote/base.html' %}
+{% extends 'clickvote/base.html' %}
     {% block heading %} Electorates | Search{% endblock heading %}
     {% block content %}
          <nav class="nav">
             <ul>
-                |<li class=""><a href="{{url_for('runvote.voters_summary')}}">Summary</a></li>
-                |<li><a href="{{url_for('runvote.add_voter')}}">Add</a></li>
-                |<li class=""><a href="{{url_for('runvote.import_csv')}}">Import csv</a></li>
-                |<li class="active"><a href="{{url_for('runvote.search_for_voter')}}">Search</a></li>|
+                |<li class=""><a href="{{url_for('clickvote.voters_summary')}}">Summary</a></li>
+                |<li><a href="{{url_for('clickvote.add_voter')}}">Add</a></li>
+                |<li class=""><a href="{{url_for('clickvote.import_csv')}}">Import csv</a></li>
+                |<li class="active"><a href="{{url_for('clickvote.search_for_voter')}}">Search</a></li>|
             </ul>
 
         </nav>
@@ -59,8 +59,8 @@
                         <td class="status">{{get_elector_status(result.Elector.id, current_user.active_election)}}</td>
                         <td class="action">
                             {% if current_user.role in ['root', 'admin'] %}
-                            <a href="#" class="button button-primary edit" id="{{result.Elector.id}}" url="{{url_for('runvote.edit_voter', id=result.Elector.id)}}" name="{{result.Elector.first_name}}">Edit</a>
-                            <a href="#" id="{{result.Elector.id}}" name="{{result.Elector.first_name}} {{result.last_name}}" url="{{url_for('runvote.search_for_voter')}}"  class="button button-caution delete">Del</a></td>
+                            <a href="#" class="button button-primary edit" id="{{result.Elector.id}}" url="{{url_for('clickvote.edit_voter', id=result.Elector.id)}}" name="{{result.Elector.first_name}}">Edit</a>
+                            <a href="#" id="{{result.Elector.id}}" name="{{result.Elector.first_name}} {{result.last_name}}" url="{{url_for('clickvote.search_for_voter')}}"  class="button button-caution delete">Del</a></td>
                             {% endif %}
                     </tr>
                 </tbody>

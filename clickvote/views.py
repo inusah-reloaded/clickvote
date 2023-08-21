@@ -21,40 +21,40 @@ from .helpers import add_new_voter, add_new_user, add_new_candidate,\
 from flask_wtf.csrf import CSRFError
 from flask_login import login_required
 
-runvote = Blueprint('runvote', __name__)
+clickvote = Blueprint('clickvote', __name__)
 
 
-@runvote.errorhandler(CSRFError)
+@clickvote.errorhandler(CSRFError)
 def handle_csrf_error(e):
     return jsonify(e.description)
 
 
-@runvote.route('/')
+@clickvote.route('/')
 @login_required
 @admin_view
 def console():
-    return render_template('runvote/console.html')
+    return render_template('clickvote/console.html')
 
 
 # views for Voters
-@runvote.route('/voters/summary/')
+@clickvote.route('/voters/summary/')
 @login_required
 @admin_view
 def voters_summary():
-    return render_template('runvote/voters/voters_summary.html')
+    return render_template('clickvote/voters/voters_summary.html')
 
 
-@runvote.route('/voters/add/', methods=['GET', 'POST'])
+@clickvote.route('/voters/add/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def add_voter():
     add_form = AddVoterForm()
     if add_form.validate_on_submit():
         add_new_voter(add_form)
-    return render_template('runvote/voters/add_voters.html', add_form=add_form)
+    return render_template('clickvote/voters/add_voters.html', add_form=add_form)
 
 
-@runvote.route('/voters/importcsv/', methods=['POST', 'GET'])
+@clickvote.route('/voters/importcsv/', methods=['POST', 'GET'])
 @login_required
 @admin_view
 def import_csv():
@@ -62,10 +62,10 @@ def import_csv():
 
     if form.validate_on_submit():
         import_from_csv(form)
-    return render_template('runvote/voters/import_csv.html', form=form)
+    return render_template('clickvote/voters/import_csv.html', form=form)
 
 
-@runvote.route('/voters/edit/<id>/',  methods=['GET', 'POST'])
+@clickvote.route('/voters/edit/<id>/',  methods=['GET', 'POST'])
 @login_required
 @admin_view
 def edit_voter(id):
@@ -75,10 +75,10 @@ def edit_voter(id):
         edit_elector_info(id, form)
 
     return render_template(
-        'runvote/voters/edit_voter.html', form=form, voter=voter)
+        'clickvote/voters/edit_voter.html', form=form, voter=voter)
 
 
-@runvote.route('/voters/search/', methods=['GET', 'POST'])
+@clickvote.route('/voters/search/', methods=['GET', 'POST'])
 @login_required
 @user_view
 def search_for_voter():
@@ -100,11 +100,11 @@ def search_for_voter():
     if form.validate_on_submit():
         voter = get_voter_details(form.identifier.data)
     return render_template(
-        'runvote/voters/search_for_voter.html', form=form, result=voter)
+        'clickvote/voters/search_for_voter.html', form=form, result=voter)
 
 
 # views for Users
-@runvote.route('/users/list/', methods=['GET', 'POST'])
+@clickvote.route('/users/list/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def user_list():
@@ -113,10 +113,10 @@ def user_list():
     if request.method == 'POST':
         delete_user(request.form.get('id'))
     return render_template(
-        'runvote/users/user_list.html', form=form, results=users)
+        'clickvote/users/user_list.html', form=form, results=users)
 
 
-@runvote.route('/history/', methods=['GET', 'POST'])
+@clickvote.route('/history/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def history():
@@ -125,10 +125,10 @@ def history():
     if form.validate_on_submit():
         history = get_history(form.identifier.data)
     return render_template(
-        'runvote/history.html', form=form, results=history)
+        'clickvote/history.html', form=form, results=history)
 
 
-@runvote.route('/users/add/', methods=['GET', 'POST'])
+@clickvote.route('/users/add/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def add_user():
@@ -136,10 +136,10 @@ def add_user():
     if form.validate_on_submit():
         add_new_user(form)
 
-    return render_template('runvote/users/add_users.html', form=form)
+    return render_template('clickvote/users/add_users.html', form=form)
 
 
-@runvote.route('/users/edit/<user_id>/', methods=['GET', 'POST'])
+@clickvote.route('/users/edit/<user_id>/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def edit_user(user_id):
@@ -148,11 +148,11 @@ def edit_user(user_id):
     user = get_users(user_id)
     if form.validate_on_submit():
         edit_user_info(user_id, form)
-        return redirect(url_for('runvote.user_list'))
-    return render_template('runvote/users/edit_user.html', form=form, user=user)
+        return redirect(url_for('clickvote.user_list'))
+    return render_template('clickvote/users/edit_user.html', form=form, user=user)
 
 
-@runvote.route('/candidates/list/', methods=['GET', 'POST'])
+@clickvote.route('/candidates/list/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def candidate_list():
@@ -174,21 +174,21 @@ def candidate_list():
             }
             return json.dumps(json_obj)
     return render_template(
-        'runvote/candidates/candidate_list.html',
+        'clickvote/candidates/candidate_list.html',
         form=form, results=candidates)
 
 
-@runvote.route('/candidates/add/', methods=['GET', 'POST'])
+@clickvote.route('/candidates/add/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def add_candidate():
     form = AddCandidateForm()
     if form.validate_on_submit():
         add_new_candidate(form)
-    return render_template('runvote/candidates/add_candidate.html', form=form)
+    return render_template('clickvote/candidates/add_candidate.html', form=form)
 
 
-@runvote.route('/candidates/edit/<id>/', methods=['GET', 'POST'])
+@clickvote.route('/candidates/edit/<id>/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def edit_candidate(id):
@@ -199,13 +199,13 @@ def edit_candidate(id):
     # form.process()
     if form.validate_on_submit():
         edit_candidate_info(id, form)
-    return render_template('runvote/candidates/edit_candidate_info.html',
+    return render_template('clickvote/candidates/edit_candidate_info.html',
                            form=form, results=candidate)
 
 
-@runvote.route('/vote/<school>/<scope>/<election>/<portfolio>/',
+@clickvote.route('/vote/<school>/<scope>/<election>/<portfolio>/',
                defaults={'department': None}, methods=['GET', 'POST'])
-@runvote.route('/vote/<school>/<scope>/<department>/<election>/<portfolio>/',
+@clickvote.route('/vote/<school>/<scope>/<department>/<election>/<portfolio>/',
                methods=['GET', 'POST'])
 @login_required
 @elector_view
@@ -223,33 +223,33 @@ def vote(school, scope, department, election, portfolio):
             if portfolio in ['Select Portfolio', 'voted']:
                 set_status_as_voted(elector_id, election_id)
                 # flash('You have finished voting')
-                return url_for('runvote.vote_summary', school=school,
+                return url_for('clickvote.vote_summary', school=school,
                                scope=scope, department=department,
                                election=election)
 
-            return url_for('runvote.vote', school=school, scope=scope,
+            return url_for('clickvote.vote', school=school, scope=scope,
                            department=department, election=election,
                            portfolio=portfolio)
 
-        return render_template('runvote/vote.html', results=candidates,
+        return render_template('clickvote/vote.html', results=candidates,
                                election=election)
     flash('You tried jumping foward or backward. allow the system to guide you')
     return url_for('auth.logout')
 
 
-@runvote.route('/vote/summary/<school>/<scope>/<election>/',
+@clickvote.route('/vote/summary/<school>/<scope>/<election>/',
                defaults={'department': None}, methods=['GET', 'POST'])
-@runvote.route('/vote/summary/<school>/<scope>/<department>/<election>/',
+@clickvote.route('/vote/summary/<school>/<scope>/<department>/<election>/',
                methods=['GET', 'POST'])
 @login_required
 @elector_view
 def vote_summary(school, scope, department, election):
     result = selected_candidates(election)
 
-    return render_template('runvote/vote_summary.html', result=result)
+    return render_template('clickvote/vote_summary.html', result=result)
 
 
-@runvote.route('/vote/report/<school>/<scope>/<election>/<pid>/<portfolio>/',
+@clickvote.route('/vote/report/<school>/<scope>/<election>/<pid>/<portfolio>/',
                methods=['GET', 'POST'])
 @login_required
 @admin_view
@@ -259,7 +259,7 @@ def election_report(school, scope, election, pid, portfolio):
             and 'portfolio' in request.form:
         portfolio = request.form.get('portfolio')
         pid = request.form.get('id')
-        return url_for('runvote.election_report',
+        return url_for('clickvote.election_report',
                        school=school, scope=scope,
                        election=election,
                        pid=pid, portfolio=portfolio)
@@ -269,19 +269,19 @@ def election_report(school, scope, election, pid, portfolio):
         skip_count = count_votes('skip', str(pid), election)
         no_count = count_votes('no', str(pid), election)
         total_votes = count_votes('all', str(pid), election)
-        return render_template('runvote/election_report.html',
+        return render_template('clickvote/election_report.html',
                                portfolios=portfolios, report=report,
                                skip_count=skip_count, total_votes=total_votes,
                                no_count=no_count)
 
     total_registered = registered_electors()
     turnout = elector_turnout(election)
-    return render_template('runvote/election_report_summary.html',
+    return render_template('clickvote/election_report_summary.html',
                            portfolios=portfolios, registered=total_registered,
                            turnout=turnout)
 
 
-@runvote.route('/vote/strongroom/<school>/<scope>/<election>/',
+@clickvote.route('/vote/strongroom/<school>/<scope>/<election>/',
                methods=['GET', 'POST'])
 @login_required
 @strongroom_view
@@ -289,11 +289,11 @@ def strongroom(school, scope, election):
     total_registered = registered_electors()
     turnout = elector_turnout(election)
 
-    return render_template('runvote/strongroom.html',
+    return render_template('clickvote/strongroom.html',
                            total_registered=total_registered, turnout=turnout)
 
 
-@runvote.route('/cast_vote/', methods=['POST'])
+@clickvote.route('/cast_vote/', methods=['POST'])
 @elector_view
 @login_required
 def cast_vote():
@@ -304,14 +304,14 @@ def cast_vote():
         casting_vote(elector_id, election_id, candidate_real_id)
 
 
-@runvote.route('/settings/')
+@clickvote.route('/settings/')
 @login_required
 @admin_view
 def settings():
-    return render_template('runvote/settings/settings.html')
+    return render_template('clickvote/settings/settings.html')
 
 
-@runvote.route('/settings/elections/', methods=['GET', 'POST'])
+@clickvote.route('/settings/elections/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def elections():
@@ -327,11 +327,11 @@ def elections():
             state = edit_election_status(request.form['id'],
                                          request.form['selection'])
             return state
-    return render_template('runvote/settings/elections.html',
+    return render_template('clickvote/settings/elections.html',
                            form=form, results=elections)
 
 
-@runvote.route('/settings/elections/edit/<id>/',  methods=['GET', 'POST'])
+@clickvote.route('/settings/elections/edit/<id>/',  methods=['GET', 'POST'])
 @login_required
 @admin_view
 def edit_election(id):
@@ -341,11 +341,11 @@ def edit_election(id):
         edit_elections(id, form)
 
     return render_template(
-        'runvote/settings/edit_election.html', form=form,
+        'clickvote/settings/edit_election.html', form=form,
         election_id=election.id)
 
 
-@runvote.route('/settings/elections/create/', methods=['GET', 'POST'])
+@clickvote.route('/settings/elections/create/', methods=['GET', 'POST'])
 @login_required
 @admin_view
 def create_election():
@@ -354,19 +354,19 @@ def create_election():
         return "Validated"
         create_elections(form)
 
-    return render_template('runvote/settings/create_election.html', form=form)
+    return render_template('clickvote/settings/create_election.html', form=form)
 
 
-@runvote.route('/settings/account/edit', methods=['GET', 'POST'])
+@clickvote.route('/settings/account/edit', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditAccountForm()
     if form.validate_on_submit():
         edit_account_info(current_user.user_id, form)
-    return render_template('runvote/settings/edit_profile.html', form=form)
+    return render_template('clickvote/settings/edit_profile.html', form=form)
 
 
-@runvote.context_processor
+@clickvote.context_processor
 def util_processor():
     return dict(get_all_portfolios=get_all_portfolios,
                 report_election=report_election,

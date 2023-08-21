@@ -1,10 +1,10 @@
-{% extends 'runvote/base.html' %}
+{% extends 'clickvote/base.html' %}
 {% block heading %} Candidates | Edit {% endblock heading %}
     {% block content %}
         <nav class="nav">
             <ul>
-                |<li ><a href="{{url_for('runvote.candidate_list')}}">List</a></li>
-                |<li class=""><a href="{{url_for('runvote.add_candidate')}}">Add</a></li>|
+                |<li ><a href="{{url_for('clickvote.candidate_list')}}">List</a></li>
+                |<li class=""><a href="{{url_for('clickvote.add_candidate')}}">Add</a></li>|
             </ul>
 
         </nav>

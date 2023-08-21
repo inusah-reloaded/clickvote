@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='clickvote/css/login_vote.css')}}">
         <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
-        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/dialog.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='clickvote/css/dialog.css')}}">
 
     </head>
     <body>
@@ -31,7 +31,7 @@
             <div class="candidates-container">
                 <div class="position">
                     <!--<img src="{{url_for('static',
-                        filename='runvote/images/govote.png')}}">-->
+                        filename='clickvote/images/govote.png')}}">-->
                         
                 {% if results %}
                 <h1>Candidats for {{results[0].Candidate.portfolio}}</h1>
@@ -88,7 +88,7 @@
 
 
         </div>
-        <script type='text/javascript' src="{{url_for('static', filename='runvote/js/dialog.js')}}"></script>
+        <script type='text/javascript' src="{{url_for('static', filename='clickvote/js/dialog.js')}}"></script>
 
 
     <script>
