@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 from flask_login import current_user
 import datetime
 import time
+from sqlalchemy.sql import text    
 # from grampg import PasswordGenerator
 
 
@@ -238,7 +239,29 @@ def get_voter_details(voter_id):
             .first()
          )
 
+def get_candidates(cid=None):
+    if cid is None:
+        return (dbsession.query(Account, Candidate, Elector)
+                .select_from(Account)
+                .filter_by(id=Candidate.createdby)
+                .join(Candidate)
+                .filter_by(createdby=current_user.creator)
+                .join(Elector)
+                .filter_by(id=Candidate.elector_id)
+                .order_by(Candidate.candidate_id).all()
+                )
+    return (dbsession.query(Account, Candidate, Elector)
+            .select_from(Account)
+            .filter_by(id=Candidate.createdby)
+            .join(Candidate)
+            .filter_by(id=int(cid))
+            .filter_by(createdby=current_user.creator)
+            .join(Elector)
+            .filter_by(id=Candidate.elector_id)
+            .first()
+            )
 
+'''
 def get_candidates(cid=None):
     if cid is None:
         return (dbsession.query(Account, Candidate, Elector)
@@ -258,13 +281,14 @@ def get_candidates(cid=None):
             .filter_by(id=Candidate.elector_id)
             .first()
             )
-
+'''
 
 def get_candidates_by(school, scope, election, position=None):
     if position is None:
         if 'src' in scope:
             return (dbsession.query(Election, Account,
                     Candidate, Portfolio, Elector)
+                    .select_from(Election)
                     .filter(Election.status.in_(['active', 'testing']))
                     .filter_by(scope='src')
                     .filter_by(id=election)
@@ -280,6 +304,7 @@ def get_candidates_by(school, scope, election, position=None):
                     )
         return (dbsession.query(
             Election, Account, Candidate, Portfolio, Elector)
+                .select_from(Election)
                 .filter(Election.status.in_(['active', 'testing']))
                 .filter_by(scope='dep')
                 .filter_by(id=election)
@@ -298,6 +323,7 @@ def get_candidates_by(school, scope, election, position=None):
     if 'src' in scope:
         return (dbsession.query(
             Election, Account, Candidate, Portfolio, Elector)
+                .select_from(Election)
                 .filter(Election.status.in_(['active', 'testing']))
                 .filter_by(scope='src')
                 .filter_by(id=election)
@@ -313,6 +339,7 @@ def get_candidates_by(school, scope, election, position=None):
                 .order_by(asc(Candidate.candidate_id)).all()
                 )
     return (dbsession.query(Election, Account, Candidate, Portfolio, Elector)
+            .select_from(Election)
             .filter(Election.status.in_(['active', 'testing']))
             .filter_by(scope='dep')
             .filter_by(id=election)
@@ -616,9 +643,10 @@ def get_election_portfolios(election_id, status):
     if status == 'voted':
         return 'voted'
     '''
+
     query = dbsession.execute(
-        "select elections.portfolio_"+status+" from elections where id=:id",
-        {'id': election_id}).first()
+        text("select elections.portfolio_"+status+" from elections where id=:id"),
+             {'id': election_id}).first()
     return query[0]
 
 
@@ -687,7 +715,7 @@ def get_active_election(account, school):
                            .filter(Election.status.in_(['active', 'testing']),
                                    Election.createdby == account,
                                    Election.scope == 'dep',
-                                   Election.date == date.today())
+                                   )
                            .first()
                            )
     src_election = (dbsession.query(Election)
@@ -711,13 +739,13 @@ def validate_vote_url(elector_id, election_id):
 def count_votes(candidate_id, portfolio_id, election_id):
     if 'all' in candidate_id:
         return (dbsession.execute(
-            'SELECT count(portfolio_'+portfolio_id+') \
-            FROM votes WHERE election_id=:election_id',
+            text('SELECT count(portfolio_'+portfolio_id+') \
+            FROM votes WHERE election_id=:election_id'),
             {'election_id': election_id})).first()[0]
 
     return (dbsession.execute(
-        'SELECT count(portfolio_'+portfolio_id+') FROM votes WHERE election_id\
-        =:election_id and portfolio_' + portfolio_id+'=:candidate_id',
+        text('SELECT count(portfolio_'+portfolio_id+') FROM votes WHERE election_id\
+        =:election_id and portfolio_' + portfolio_id+'=:candidate_id'),
         {'election_id': election_id, 'candidate_id': candidate_id})).first()[0]
 
 
@@ -835,3 +863,4 @@ def strongroom_view(f):
             return redirect(url_for('auth.logout'))
         return f(*args, **kwargs)
     return decorated_function
+    

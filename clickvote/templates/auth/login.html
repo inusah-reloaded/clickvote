@@ -7,14 +7,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link type"images/png" rel="icon" href="{{url_for('static', filename='site/images/icons/webceil_icon.ico')}}" sizes="64x64">
-        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='runvote/css/login_vote.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='clickvote/css/login_vote.css')}}">
         <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='buttons/css/buttons.css')}}">
 
 
     </head>
     <body>
         <header>
-            <img src="{{url_for('static', filename='runvote/images/logo.png')}}">
+            <img src="{{url_for('static', filename='clickvote/images/logo.png')}}">
         </header>
         <div class="content">
                 {% with messages = get_flashed_messages() %}
@@ -33,7 +33,7 @@
                 {% endwith %}
             <div class="login">
                 <div class="logo">
-                    <img src="{{url_for('static', filename='runvote/images/govote.png')}}">
+                    <img src="{{url_for('static', filename='clickvote/images/govote.png')}}">
                 </div>
                 
                 <form method='post'>
